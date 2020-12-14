@@ -1,0 +1,53 @@
+{
+  "name": "business-logic-etl",
+  "version": "0.0.1",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "prod": "NODE_ENV=prod node dist/index.js",
+    "staging": "NODE_ENV=staging node dist/index.js",
+    "dev": "NODE_ENV=dev nodemon --require= dotenv/config --exec babel-node src/index.js",
+    "test": "NODE_ENV=test nyc --reporter=lcov --reporter=text ./node_modules/.bin/mocha tests --require @babel/register --recursive --timeout 10000",
+    "build": "babel src --out-dir dist",
+    "plato": "plato -r -d plato src"
+  },
+  "dependencies": {
+    "@babel/runtime": "^7.8.4",
+    "axios": "^0.19.0",
+    "body-parser": "^1.19.0",
+    "core-js": "^3.6.4",
+    "dotenv": "^8.2.0",
+    "express": "^4.17.1",
+    "regenerator-runtime": "^0.13.3",
+    "underscore": "^1.9.2"
+  },
+  "devDependencies": {
+    "@babel/cli": "^7.8.4",
+    "@babel/core": "^7.8.4",
+    "@babel/node": "^7.8.4",
+    "@babel/preset-env": "^7.8.4",
+    "@babel/register": "^7.8.3",
+    "chai": "^4.2.0",
+    "eslint": "^6.8.0",
+    "eslint-config-airbnb-base": "^14.0.0",
+    "eslint-config-prettier": "^6.10.0",
+    "eslint-plugin-import": "^2.20.1",
+    "eslint-plugin-mocha": "^6.2.2",
+    "eslint-plugin-prettier": "^3.1.2",
+    "mocha": "^7.0.1",
+    "nodemon": "^2.0.2",
+    "nyc": "^15.0.0",
+    "plato": "^1.7.0",
+    "prettier": "^1.19.1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/tobthecreator/business-logic-etl.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/tobthecreator/business-logic-etl/issues"
+  },
+  "homepage": "https://github.com/tobthecreator/business-logic-etl#readme"
+}
