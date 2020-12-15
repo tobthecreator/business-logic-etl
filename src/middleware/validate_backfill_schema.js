@@ -9,6 +9,7 @@ const validateBackfillSchema = (req, res, next) => {
   if (reqHasRequiredParameters(req.body)) {
     next();
   } else {
+    // TODO: tell the requester what is missing
     res.status(400).send({ error: 'Bad request' });
   }
 };
