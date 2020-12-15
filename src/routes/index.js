@@ -1,4 +1,4 @@
-import { WorkMinutesController } from '../controllers/work_min_controller';
+import WorkAvailabilityController from '../controllers/work_availability_controller';
 
 module.exports = (app) => {
   // Information
@@ -6,9 +6,9 @@ module.exports = (app) => {
     res.send({ service: 'business-logic-etl' });
   });
 
-  // ################
-  // # Work Minutes #
-  // ################
-  app.get('/crons/work-minutes', WorkMinutesController);
-  app.post('/crons/work-minutes', WorkMinutesController);
+  // #####################
+  // # Work Availability #
+  // #####################
+  app.get('/etl/work-availability', WorkAvailabilityController);
+  app.post('/etl/work-availability', WorkAvailabilityController);
 };
