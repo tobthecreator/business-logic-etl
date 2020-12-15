@@ -14,7 +14,7 @@ import routes from './routes';
 const app = express();
 app.use(bodyParser.json());
 app.use(requireAuth);
-app.post('/crons/*', validateBackfillSchema);
+app.post('/etl/*', validateBackfillSchema);
 
 routes(app);
 

@@ -1,7 +1,9 @@
-import WorkAvailabilityController from '../controllers/work_availability_controller';
+import WorkAvailabilityController from '../controllers/work_availability';
 
 module.exports = (app) => {
-  // Information
+  // ###############
+  // # Information #
+  // ###############
   app.get('/', (req, res) => {
     res.send({ service: 'business-logic-etl' });
   });
@@ -11,4 +13,6 @@ module.exports = (app) => {
   // #####################
   app.get('/etl/work-availability', WorkAvailabilityController);
   app.post('/etl/work-availability', WorkAvailabilityController);
+
+  // TODO: Add API routes
 };
