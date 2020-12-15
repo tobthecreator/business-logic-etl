@@ -1,10 +1,10 @@
 
-GET http://localhost:8080/crons/work-minutes
+GET http://localhost:8080/etl/work-availability
 Authorization: Bearer example
 
 ###
 
-POST http://localhost:8080/crons/work-minutes
+POST http://localhost:8080/etl/work-availability
 content-type: application/json
 Authorization: Bearer example
 
