@@ -8,6 +8,35 @@ import path from 'path';
 //   keyFilename: './example-service-account-for-extraction.json',
 // });
 
+/**
+ * queryTimeCardsTableInBigQuery
+ * @description
+ * Query the time cards table and turn each clock-in and clock-out datetime
+ * into a new schema that is easier to parse for our business logic.
+ *
+ * Each clock-in becomes startDate ("YYYY-MM-DD"), startHour ("YYYY-MM-DD HH:00:00")
+ * and startTime ("YYYY-MM-DD HH:MM:SS").  Each clock-out is treated the same,
+ * generating endDate ("YYYY-MM-DD"), endHour ("YYYY-MM-DD HH:00:00")
+ * and endTime ("YYYY-MM-DD HH:MM:SS").
+ *
+ * This new schema will be used to break up multi-day and multi-hour records into
+ * records that represent the fractoinal timecard for a specific tech, on a specific
+ * date, at a specific hour.
+ *
+ * If errors occur, publish an event to Google PubSub to send a Slack alert
+ * and create a follow-up JIRA ticket.
+ *
+ * Note: I normally add metrics around response time to each of these Extractors, and
+ * log those results to a database like BigQuery.  This way I can have metrics
+ * on the speed of our services, and monitor for things dramtically outside of range.
+ * This has helped us spot a few outages before they were reported to us on several occasions.
+ *
+ * @param {Array} startTime YYYY-MM-DD, or YYYY-MM-DDTHH:MM:SS, as a string
+ * @param {Array} endTime YYYY-MM-DD, or YYYY-MM-DDTHH:MM:SS, as a string
+ * @param {Array} pageNum pagination iterator, how far to offset or next query
+ * @param {Array} limit size of each page of results
+ * @return {Promise}
+ */
 const queryTimeCardsTableInBigQuery = (startTime, endTime, pageNum, limit = 5000) => {
   const timecardsTable = BQ.dataset('hr').table('timecards_current');
 
@@ -58,6 +87,19 @@ const queryTimeCardsTableInBigQuery = (startTime, endTime, pageNum, limit = 5000
   });
 };
 
+/**
+ * extractor
+ * @description
+ * From BigQuery (in the commented-out code below), make paginated requests for timecard
+ * data until no more results are returned.
+ *
+ * For the example code, synchronously extract the example timecard data I've generated
+ * and return it in the same format that BigQuery would
+ *
+ * @param {String} startTime YYYY-MM-DD, or YYYY-MM-DDTHH:MM:SS, as a string
+ * @param {String} endTime YYYY-MM-DD, or YYYY-MM-DDTHH:MM:SS, as a string
+ * @return {Array}
+ */
 const extractor = (startTime, endTime) => {
   // #################################################
   // # Example if GCP Project and BQ Dataset existed #
@@ -87,8 +129,8 @@ const extractor = (startTime, endTime) => {
   // return recordsExtracted
 
   const jsonBuffer = readFileSync(path.join(__dirname, 'example-timecards-response.json'));
-  const recordsExtracted = JSON.parse(jsonBuffer);
-  return recordsExtracted;
+  const records = JSON.parse(jsonBuffer);
+  return records;
 };
 
 export default extractor;
