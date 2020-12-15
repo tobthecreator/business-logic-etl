@@ -1,0 +1,12 @@
+
+GET http://localhost:8080/crons/work-minutes
+
+###
+
+POST http://localhost:8080/crons/work-minutes
+content-type: application/json
+
+{
+    "start_time": "2020-11-01",
+    "end_time": "2020-12-01"
+}
